@@ -122,12 +122,27 @@
   .loop-row input[type=range]{width:80px;accent-color:var(--gold);}
   .loop-row button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:2px 6px;border-radius:5px;}
   .loop-row button:hover{color:var(--hot);background:rgba(255,90,60,.1);}
+  /* ayuda */
+  .helpbtn{margin-left:14px;background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;}
+  .helpbtn:hover{border-color:var(--gold);color:var(--gold);}
+  .help-overlay{position:fixed;inset:0;background:rgba(6,8,12,.78);backdrop-filter:blur(3px);z-index:600;display:none;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto;}
+  .help-overlay.show{display:flex;}
+  .help-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;max-width:680px;width:100%;padding:30px 32px 36px;position:relative;box-shadow:0 24px 70px -10px rgba(0,0,0,.7);}
+  .help-card h2{font-size:22px;font-weight:800;margin-bottom:8px;background:linear-gradient(95deg,var(--hot),var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  .help-card h3{font-size:13px;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);margin:20px 0 6px;}
+  .help-card p{font-size:13px;line-height:1.65;color:var(--ink);opacity:.9;margin-bottom:6px;}
+  .help-card .help-intro{color:var(--muted);margin-bottom:4px;}
+  .help-card .help-note{margin-top:22px;padding:12px 14px;background:var(--grid);border-radius:9px;border-left:3px solid var(--gold);color:var(--muted);}
+  .help-card b{color:var(--ink);opacity:1;font-weight:700;}
+  .help-close{position:absolute;top:16px;right:16px;width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--grid);color:var(--ink);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .help-close:hover{background:var(--hot);border-color:var(--hot);color:#fff;}
 </style>
 </head>
 <body>
 <header>
   <h1><b>BoomBox</b> · base maker</h1>
   <span class="sub">boom-bap · freestyle</span>
+  <button id="helpBtn" class="helpbtn" title="Ayuda">? Ayuda</button>
   <div class="spacer"></div>
   <div class="transport">
     <button id="play" class="primary">▶ Play</button>
@@ -200,6 +215,41 @@
       <input id="loopFileInput" type="file" accept="audio/*" style="display:none" multiple>
       <span class="hint" style="margin:0;">Los loops se sincronizan automáticamente y se incluyen en el WAV exportado.</span>
     </div>
+  </div>
+</div>
+
+<div id="helpOverlay" class="help-overlay">
+  <div class="help-card">
+    <button id="helpClose" class="help-close" title="Cerrar">✕</button>
+    <h2>Cómo usar BoomBox</h2>
+    <p class="help-intro">Un creador de bases boom-bap para freestyle. Todo el sonido se genera en tu navegador; nada se sube a internet.</p>
+
+    <h3>1 · Secuenciador</h3>
+    <p>Cada fila es un instrumento y tiene 16 pasos (2 compases). Hacé clic en una celda para activar o quitar un golpe. La primera celda de cada grupo de 4 está más clara para marcar el pulso.</p>
+    <p>En los instrumentos melódicos (808, contrabajo, acordes, Rhodes, piano, violín, flauta, lead) aparece debajo un selector de nota por cada paso activo.</p>
+
+    <h3>2 · Controles de cada fila</h3>
+    <p><b>M</b> silencia la fila. El <b>deslizador</b> ajusta su volumen. El botón <b>⊕</b> carga un sample propio para reemplazar el sonido sintetizado; cuando hay sample cargado, en las filas melódicas aparece un selector celeste para indicar en qué nota está grabado (así se afina al tocar otras notas). Tocá el botón otra vez para quitarlo.</p>
+
+    <h3>3 · Presets</h3>
+    <p>Botones que cargan patrones listos (Clásico, Head-nod, Jazz-hop, Cámara, etc.) en la variante actual. "Vaciar" limpia la grilla.</p>
+
+    <h3>4 · Variantes</h3>
+    <p>Pestañas arriba del secuenciador. Cada variante es un patrón distinto (ej: A para el verso, B para el estribillo). Creá nuevas con "+ Nueva" y editá cada una por separado.</p>
+
+    <h3>5 · Arreglo</h3>
+    <p>Encadená variantes para armar la base completa (ej: A → A → B → A). Elegí cuántas veces se repite cada bloque. "Tocar arreglo" reproduce toda la estructura; el bloque y la pestaña que suenan se resaltan.</p>
+
+    <h3>6 · Transporte</h3>
+    <p><b>Play</b> repite la variante actual. <b>BPM</b> cambia la velocidad. <b>Swing</b> atrasa las corcheas para darle groove. <b>Fills</b> mete un redoble al final de cada N compases. <b>Vinyl</b> agrega ruido de disco de fondo.</p>
+
+    <h3>7 · Loops / Breaks</h3>
+    <p>Cargá samples largos (un piano de vinilo, un break, cuerdas) que corren en paralelo a la base, con su propio volumen.</p>
+
+    <h3>8 · Proyectos y exportar</h3>
+    <p>Guardá tus bases con nombre en la galería, descargalas todas a un archivo <b>.json</b> (incluye los samples) y volvé a importarlas cuando quieras. <b>Exportar WAV</b> renderiza la base final a un archivo de audio para reproducir y tirar rimas encima.</p>
+
+    <p class="help-note">Consejo: para el sonido boom-bap clásico de sampleo, combiná un loop de piano de vinilo con el Vinyl activado.</p>
   </div>
 </div>
 
@@ -1451,6 +1501,15 @@ function preloadBases(){
 
   return bases;
 }
+
+/* =====================================================================
+   AYUDA
+   ===================================================================== */
+const helpOverlay=document.getElementById('helpOverlay');
+document.getElementById('helpBtn').addEventListener('click',()=>helpOverlay.classList.add('show'));
+document.getElementById('helpClose').addEventListener('click',()=>helpOverlay.classList.remove('show'));
+helpOverlay.addEventListener('click',e=>{ if(e.target===helpOverlay) helpOverlay.classList.remove('show'); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') helpOverlay.classList.remove('show'); });
 
 /* =====================================================================
    INIT
